@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submit Grievance | Student Portal</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
+        .card { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); width: 100%; max-width: 400px; }
+        h2 { color: #1a73e8; text-align: center; }
+        label { display: block; margin-top: 15px; font-weight: bold; color: #444; }
+        input, textarea, select { width: 100%; padding: 12px; margin-top: 5px; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; }
+        .btn { width: 100%; background: #1a73e8; color: white; border: none; padding: 14px; border-radius: 6px; cursor: pointer; font-size: 16px; font-weight: bold; margin-top: 20px; transition: 0.3s; }
+        .btn:hover { background: #1557b0; }
+        .admin-link { text-align: center; display: block; margin-top: 20px; color: #666; text-decoration: none; font-size: 14px; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h2>Submit Grievance</h2>
+        <form id="grievanceForm">
+            <label>Full Name</label>
+            <input type="text" id="name" required placeholder="Ex: Rahul Sharma">
+            <label>PRN (Student ID)</label>
+            <input type="text" id="prn" required placeholder="Ex: 20241001">
+            <label>Category</label>
+            <select id="category">
+                <option>Academic</option>
+                <option>Infrastructure</option>
+                <option>Canteen/Hostel</option>
+            </select>
+            <label>Complaint Details</label>
+            <textarea id="complaint" required placeholder="Describe the issue..."></textarea>
+            <button type="submit" class="btn">Submit Complaint</button>
+        </form>
+        <a href="adminform.html" class="admin-link">Admin Login →</a>
+
+    </div>
+
+    <script>
+        document.getElementById('grievanceForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const grievance = {
+                id: Date.now(),
+                name: document.getElementById('name').value,
+                prn: document.getElementById('prn').value,
+                category: document.getElementById('category').value,
+                text: document.getElementById('complaint').value,
+                status: "Pending",
+                date: new Date().toLocaleDateString()
+            };
+            let list = JSON.parse(localStorage.getItem('grievances')) || [];
+            list.push(grievance);
+            localStorage.setItem('grievances', JSON.stringify(list));
+            alert("Success! Your grievance has been recorded.");
+            this.reset();
+        });
+    </script>
+</body>
+</html>
